@@ -373,6 +373,31 @@ tbody td:last-child{text-align:right;}
 .theme-btn{background:transparent;border:1px solid var(--border2);color:var(--text2);cursor:pointer;border-radius:6px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;transition:all .15s;font-size:15px;}
 .theme-btn:hover{background:var(--surface2);color:var(--text);}
 
+/* ===================== TIPSTER ===================== */
+.tipster-tag{display:inline-flex;align-items:center;gap:5px;background:rgba(157,111,255,.12);border:1px solid rgba(157,111,255,.2);color:var(--purple);padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500;}
+.tipster-tag .tipster-avatar{width:16px;height:16px;border-radius:50%;background:var(--purple);display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff;font-weight:700;flex-shrink:0;}
+.tipster-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;position:relative;overflow:hidden;}
+.tipster-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.tipster-rank-1::before{background:linear-gradient(90deg,#f5c518,#ff8c42);}
+.tipster-rank-2::before{background:linear-gradient(90deg,#8a90a0,#555c70);}
+.tipster-rank-3::before{background:linear-gradient(90deg,#cd7f32,#a0522d);}
+.tipster-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.tipster-avatar-big{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;flex-shrink:0;}
+.tipster-info{flex:1;}
+.tipster-name{font-weight:600;font-size:15px;color:var(--text);}
+.tipster-meta{font-size:11px;color:var(--text3);margin-top:2px;}
+.tipster-lucro{font-family:'DM Mono',monospace;font-size:20px;font-weight:500;}
+.tipster-stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px;}
+.tipster-stat{background:var(--surface2);border-radius:6px;padding:8px;text-align:center;}
+.tipster-stat-lbl{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--text3);}
+.tipster-stat-val{font-family:'DM Mono',monospace;font-size:14px;margin-top:3px;}
+.tipster-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:20px;}
+.tipster-input-wrap{position:relative;}
+.tipster-suggestions{position:absolute;top:100%;left:0;right:0;background:var(--surface2);border:1px solid var(--border2);border-radius:6px;z-index:50;max-height:160px;overflow-y:auto;display:none;}
+.tipster-suggestions.open{display:block;}
+.tipster-suggestion-item{padding:9px 12px;cursor:pointer;font-size:13px;color:var(--text2);display:flex;align-items:center;gap:8px;transition:background .1s;}
+.tipster-suggestion-item:hover{background:var(--border2);color:var(--text);}
+.tipster-sug-avatar{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0;}
 /* ===================== MISC ===================== */
 .divider{height:1px;background:var(--border);margin:16px 0;}
 .section-title{font-size:11px;text-transform:uppercase;letter-spacing:3px;color:var(--text3);margin-bottom:14px;}
@@ -446,6 +471,10 @@ tbody td:last-child{text-align:right;}
     <div class="nav-item" onclick="showPage('mercados',this)">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
       Mercados
+    </div>
+    <div class="nav-item" onclick="showPage('tipsters',this)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Tipsters
     </div>
     <div class="nav-item" onclick="showPage('calendario',this)">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
@@ -625,17 +654,26 @@ tbody td:last-child{text-align:right;}
             <button class="filter-btn" onclick="filterApostas('red',this)">Perdidas</button>
             <button class="filter-btn" onclick="filterApostas('combo',this)">Combinadas</button>
           </div>
-          <div class="search-wrap">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input class="search-input" type="text" placeholder="Buscar partida..." id="search-input" oninput="renderTable()">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <div class="search-wrap">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input class="search-input" type="text" placeholder="Buscar partida, tipster..." id="search-input" oninput="renderTable()">
+            </div>
+            <select class="form-select" id="filter-tipster" onchange="renderTable()" style="height:30px;padding:4px 8px;font-size:12px;width:130px">
+              <option value="">Todos tipsters</option>
+            </select>
+            <input class="period-input" type="date" id="filter-date-from" onchange="renderTable()" placeholder="De">
+            <span style="color:var(--text3);font-size:11px">→</span>
+            <input class="period-input" type="date" id="filter-date-to" onchange="renderTable()" placeholder="Até">
+            <button class="btn btn-ghost btn-sm" onclick="clearTableFilters()">Limpar</button>
           </div>
         </div>
         <table>
           <thead>
             <tr>
               <th onclick="sortTable('data')" style="cursor:pointer">Data ↕</th>
-              <th>Partida / Mercado</th>
-              <th>Esporte</th>
+              <th>Partida / Aposta</th>
+              <th>Tipster</th>
               <th onclick="sortTable('odd')" style="cursor:pointer">Odd ↕</th>
               <th onclick="sortTable('stake')" style="cursor:pointer">Stake ↕</th>
               <th>Status</th>
@@ -690,6 +728,48 @@ tbody td:last-child{text-align:right;}
         <div class="chart-card" style="flex:1">
           <div class="card-hdr"><span>Top Mercados (Win Rate)</span></div>
           <div id="top-markets"><div style="text-align:center;color:var(--text3);font-size:13px;padding:20px">Sem dados</div></div>
+        </div>
+      </div>
+      <div class="chart-card" style="margin-bottom:20px">
+        <div class="card-hdr"><span>🎯 Ranking de Tipsters</span><span style="font-size:11px;color:var(--text3)">Desempenho por fonte de dica</span></div>
+        <div id="stats-tipster-ranking"><div style="text-align:center;color:var(--text3);font-size:13px;padding:24px">Nenhum tipster cadastrado ainda</div></div>
+      </div>
+    </div>
+
+    <!-- ======= TIPSTERS ======= -->
+    <div class="page" id="page-tipsters">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
+        <div>
+          <div class="section-title" style="margin:0">Meus Tipsters</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:4px">Gerencie e acompanhe o desempenho de cada fonte de dicas</div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="openTipsterModal()">+ Novo Tipster</button>
+      </div>
+      <!-- KPIs Tipster -->
+      <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:20px">
+        <div class="kpi-card purple"><div class="kpi-lbl">Tipsters Ativos</div><div class="kpi-val purple" id="tp-total">0</div></div>
+        <div class="kpi-card green"><div class="kpi-lbl">Melhor Tipster</div><div class="kpi-val" style="color:var(--accent);font-size:16px;line-height:1.3" id="tp-best">—</div></div>
+        <div class="kpi-card red"><div class="kpi-lbl">Pior Tipster</div><div class="kpi-val" style="color:var(--red);font-size:16px;line-height:1.3" id="tp-worst">—</div></div>
+        <div class="kpi-card blue"><div class="kpi-lbl">Apostas c/ Tipster</div><div class="kpi-val blue" id="tp-apostas">0</div><div class="kpi-sub" id="tp-apostas-pct">de 0 total</div></div>
+      </div>
+      <!-- Cards Grid -->
+      <div class="tipster-grid" id="tipster-cards">
+        <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text3)">
+          <div style="font-size:32px;margin-bottom:10px">🎯</div>
+          <div>Nenhum tipster ainda</div>
+          <div style="font-size:12px;margin-top:6px">Cadastre seus tipsters e associe apostas a eles</div>
+        </div>
+      </div>
+      <!-- Tabela detalhada -->
+      <div class="table-card">
+        <div class="table-hdr">
+          <div class="table-title">Apostas por Tipster</div>
+          <select class="form-select" id="tipster-detail-select" onchange="renderTipsterDetail()" style="height:30px;padding:4px 10px;font-size:12px;width:180px">
+            <option value="">Selecionar tipster...</option>
+          </select>
+        </div>
+        <div id="tipster-detail-table">
+          <div style="text-align:center;padding:32px;color:var(--text3);font-size:13px">Selecione um tipster acima para ver suas apostas</div>
         </div>
       </div>
     </div>
@@ -819,6 +899,13 @@ tbody td:last-child{text-align:right;}
             </select>
           </div>
           <div class="form-group full"><label class="form-lbl">Partida</label><input class="form-input" type="text" id="f-partida" placeholder="Ex: Flamengo x Palmeiras"></div>
+          <div class="form-group full">
+            <label class="form-lbl">Tipster <span style="color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0">(fonte da dica)</span></label>
+            <div class="tipster-input-wrap">
+              <input class="form-input" type="text" id="f-tipster" placeholder="Ex: @joaotips, Canal X, Própria..." autocomplete="off" oninput="onTipsterInput()" onfocus="onTipsterFocus()" onblur="setTimeout(()=>closeTipsterSug(),200)">
+              <div class="tipster-suggestions" id="tipster-suggestions"></div>
+            </div>
+          </div>
           <div class="form-group full"><label class="form-lbl">Mercado / Aposta</label><input class="form-input" type="text" id="f-mercado" placeholder="Ex: Resultado Final — Flamengo Vence"></div>
           <div class="form-group"><label class="form-lbl">Odd</label><input class="form-input" type="number" id="f-odd" placeholder="Ex: 2.10" step="0.01" min="1" oninput="onOddChange()"></div>
           <div class="form-group"><label class="form-lbl">Stake (R$)</label><input class="form-input" type="number" id="f-stake" placeholder="Ex: 50" step="5" oninput="calcPreview()"></div>
@@ -988,6 +1075,69 @@ tbody td:last-child{text-align:right;}
   </div>
 </div>
 
+<!-- ===== MODAL TIPSTER ===== -->
+<div class="modal-overlay" id="tipster-modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal" style="width:420px">
+    <div class="modal-hdr">
+      <div class="modal-title" id="tipster-modal-title">NOVO TIPSTER</div>
+      <button class="modal-close" onclick="document.getElementById('tipster-modal').classList.remove('open')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group full">
+          <label class="form-lbl">Nome do Tipster</label>
+          <input class="form-input" type="text" id="t-nome" placeholder="Ex: @joaotips, Canal Apostas Pro...">
+        </div>
+        <div class="form-group full">
+          <label class="form-lbl">Emoji / Ícone</label>
+          <div style="display:flex;gap:8px;flex-wrap:wrap" id="t-emoji-picker">
+            <span onclick="selectEmoji(this)" style="cursor:pointer;font-size:22px;padding:4px;border-radius:6px;border:2px solid transparent" class="emoji-opt">🎯</span>
+            <span onclick="selectEmoji(this)" style="cursor:pointer;font-size:22px;padding:4px;border-radius:6px;border:2px solid transparent" class="emoji-opt">⚽</span>
+            <span onclick="selectEmoji(this)" style="cursor:pointer;font-size:22px;padding:4px;border-radius:6px;border:2px solid transparent" class="emoji-opt">🏆</span>
+            <span onclick="selectEmoji(this)" style="cursor:pointer;font-size:22px;padding:4px;border-radius:6px;border:2px solid transparent" class="emoji-opt">💡</span>
+            <span onclick="selectEmoji(this)" style="cursor:pointer;font-size:22px;padding:4px;border-radius:6px;border:2px solid transparent" class="emoji-opt">🔥</span>
+            <span onclick="selectEmoji(this)" style="cursor:pointer;font-size:22px;padding:4px;border-radius:6px;border:2px solid transparent" class="emoji-opt">📊</span>
+            <span onclick="selectEmoji(this)" style="cursor:pointer;font-size:22px;padding:4px;border-radius:6px;border:2px solid transparent" class="emoji-opt">🤖</span>
+            <span onclick="selectEmoji(this)" style="cursor:pointer;font-size:22px;padding:4px;border-radius:6px;border:2px solid transparent" class="emoji-opt">👤</span>
+            <span onclick="selectEmoji(this)" style="cursor:pointer;font-size:22px;padding:4px;border-radius:6px;border:2px solid transparent" class="emoji-opt">📱</span>
+            <span onclick="selectEmoji(this)" style="cursor:pointer;font-size:22px;padding:4px;border-radius:6px;border:2px solid transparent" class="emoji-opt">✍️</span>
+          </div>
+          <input type="hidden" id="t-emoji" value="🎯">
+        </div>
+        <div class="form-group">
+          <label class="form-lbl">Cor</label>
+          <div style="display:flex;gap:8px;flex-wrap:wrap" id="t-color-picker">
+            <div onclick="selectColor(this,'#9d6fff')" class="color-opt" style="width:28px;height:28px;border-radius:50%;background:#9d6fff;cursor:pointer;border:2px solid transparent"></div>
+            <div onclick="selectColor(this,'#00e5a0')" class="color-opt" style="width:28px;height:28px;border-radius:50%;background:#00e5a0;cursor:pointer;border:2px solid transparent"></div>
+            <div onclick="selectColor(this,'#4d9fff')" class="color-opt" style="width:28px;height:28px;border-radius:50%;background:#4d9fff;cursor:pointer;border:2px solid transparent"></div>
+            <div onclick="selectColor(this,'#f5c518')" class="color-opt" style="width:28px;height:28px;border-radius:50%;background:#f5c518;cursor:pointer;border:2px solid transparent"></div>
+            <div onclick="selectColor(this,'#ff4d6a')" class="color-opt" style="width:28px;height:28px;border-radius:50%;background:#ff4d6a;cursor:pointer;border:2px solid transparent"></div>
+            <div onclick="selectColor(this,'#ff8c42')" class="color-opt" style="width:28px;height:28px;border-radius:50%;background:#ff8c42;cursor:pointer;border:2px solid transparent"></div>
+          </div>
+          <input type="hidden" id="t-color" value="#9d6fff">
+        </div>
+        <div class="form-group">
+          <label class="form-lbl">Canal / Plataforma</label>
+          <select class="form-select" id="t-canal">
+            <option value="">—</option>
+            <option>Telegram</option><option>Instagram</option><option>Twitter/X</option>
+            <option>YouTube</option><option>WhatsApp</option><option>Discord</option>
+            <option>Site próprio</option><option>Própria análise</option><option>Outro</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label class="form-lbl">Notas</label>
+          <input class="form-input" type="text" id="t-notas" placeholder="Ex: Especialista em futebol brasileiro, foco em over/under">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="document.getElementById('tipster-modal').classList.remove('open')">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveTipster()">Salvar Tipster</button>
+    </div>
+  </div>
+</div>
+
 <!-- ===== TOAST ===== -->
 <div class="toast" id="toast"><div class="toast-dot" id="toast-dot"></div><span id="toast-msg">OK</span></div>
 
@@ -1017,6 +1167,7 @@ let user = null;
 let apostas = [];
 let metas = [];
 let transacoes = [];
+let tipsters = [];
 let bancaInicial = 0;
 let alertConfig = { daily: 0, dd: 20 };
 let editingId = null;
@@ -1071,17 +1222,23 @@ onAuthStateChanged(auth, async u => {
       const ts = await getDocs(collection(db,'users',u.uid,'transacoes'));
       transacoes = ts.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>a.data>b.data?1:-1);
     } catch(e){}
+    // Load tipsters
+    try {
+      const tp = await getDocs(collection(db,'users',u.uid,'tipsters'));
+      tipsters = tp.docs.map(d=>({id:d.id,...d.data()}));
+    } catch(e){}
     // Subscribe apostas
     const ref = collection(db,'users',u.uid,'apostas');
     const unsub = onSnapshot(query(ref, orderBy('data','asc')), snap => {
       apostas = snap.docs.map(d=>({id:d.id,...d.data()}));
       setSyncStatus('ok');
+      updateTipsterSelects();
       render();
       showScreen('app');
     }, ()=>setSyncStatus('error'));
     unsubAll.push(unsub);
   } else {
-    user=null; apostas=[]; metas=[]; transacoes=[]; bancaInicial=0;
+    user=null; apostas=[]; metas=[]; transacoes=[]; tipsters=[]; bancaInicial=0;
     showScreen('login');
   }
 });
@@ -1125,6 +1282,7 @@ window.showPage = (page, el) => {
   if(page==='metas') renderMetas();
   if(page==='mercados') renderMercados();
   if(page==='estatisticas') renderEstatisticas();
+  if(page==='tipsters') { updateTipsterSelects(); renderTipsterCards(); }
 };
 
 // ============ SIDEBAR MOBILE ============
@@ -1453,16 +1611,29 @@ window.filterApostas = (filter, btn) => {
   btn.classList.add('active');
   renderTable();
 };
+window.clearTableFilters = () => {
+  document.getElementById('filter-date-from').value='';
+  document.getElementById('filter-date-to').value='';
+  document.getElementById('filter-tipster').value='';
+  document.getElementById('search-input').value='';
+  renderTable();
+};
 
 function renderTable() {
   const tbody=document.getElementById('apostas-tbody');
   const search=document.getElementById('search-input')?.value?.toLowerCase()||'';
+  const tipsterFilter=document.getElementById('filter-tipster')?.value||'';
+  const dateFrom=document.getElementById('filter-date-from')?.value||'';
+  const dateTo=document.getElementById('filter-date-to')?.value||'';
   let list=[...apostas];
   if(currentFilter==='open') list=list.filter(a=>a.status==='open');
   else if(currentFilter==='green') list=list.filter(a=>a.status==='green');
   else if(currentFilter==='red') list=list.filter(a=>a.status==='red');
   else if(currentFilter==='combo') list=list.filter(a=>a.tipo==='combo');
-  if(search) list=list.filter(a=>(a.partida||'').toLowerCase().includes(search)||(a.mercado||'').toLowerCase().includes(search)||(a.esporte||'').toLowerCase().includes(search));
+  if(search) list=list.filter(a=>(a.partida||'').toLowerCase().includes(search)||(a.mercado||'').toLowerCase().includes(search)||(a.esporte||'').toLowerCase().includes(search)||(a.tipster||'').toLowerCase().includes(search));
+  if(tipsterFilter) list=list.filter(a=>(a.tipster||'')=== tipsterFilter);
+  if(dateFrom) list=list.filter(a=>a.data>=dateFrom);
+  if(dateTo) list=list.filter(a=>a.data<=dateTo);
   list.sort((a,b)=>{
     let va=a[sortField]||'',vb=b[sortField]||'';
     if(sortField==='odd'||sortField==='stake'){va=parseFloat(va)||0;vb=parseFloat(vb)||0;}
@@ -1479,10 +1650,12 @@ function renderTable() {
     const pStr=a.status==='void'||a.status==='open'?'<span class="profit-zero">—</span>':`<span class="${pcls}">${profit>=0?'+':''}${fmtBRL(profit)}</span>`;
     const comboTag=a.tipo==='combo'?`<span class="combo-badge">Multi</span>`:'';
     const confianca=a.confianca?'⭐'.repeat(parseInt(a.confianca)):'';
+    const tp=a.tipster?getTipsterObj(a.tipster):null;
+    const tipsterBadge=a.tipster?`<span class="tipster-tag" style="border-color:${tp?tp.color+'44':'rgba(157,111,255,.2)'};color:${tp?tp.color:'var(--purple)'}"><span class="tipster-avatar" style="background:${tp?tp.color:'var(--purple)'}">${tp?tp.emoji:'T'}</span>${a.tipster}</span>`:'<span style="color:var(--text3);font-size:11px">—</span>';
     return `<tr>
       <td style="color:var(--text3);font-size:11px">${fmtDate(a.data)}</td>
       <td><div class="match-info"><div class="match-name">${a.partida}${comboTag}</div><div class="match-sub">${a.mercado||'—'} ${a.liga?'· '+a.liga:''} ${a.casa?'· '+a.casa:''} ${confianca}</div></div></td>
-      <td style="color:var(--text2);font-size:11px">${a.esporte||'—'}</td>
+      <td>${tipsterBadge}</td>
       <td><span class="mono">${parseFloat(a.odd).toFixed(2)}</span></td>
       <td><span class="mono">${fmtBRL(a.stake)}</span></td>
       <td>
@@ -1556,6 +1729,7 @@ function renderEstatisticas() {
 
   renderMonthlyChart(list,'monthly-chart-stats');
   renderWeekdayChart(list,'weekday-chart');
+  renderTipsterRanking(list);
 }
 
 // ============ MERCADOS ============
@@ -1758,6 +1932,7 @@ window.openModal = (id=null) => {
       document.getElementById('f-data').value=a.data;
       document.getElementById('f-esporte').value=a.esporte||'';
       document.getElementById('f-partida').value=a.partida||'';
+      document.getElementById('f-tipster').value=a.tipster||'';
       document.getElementById('f-mercado').value=a.mercado||'';
       document.getElementById('f-odd').value=a.odd;
       document.getElementById('f-stake').value=a.stake;
@@ -1773,7 +1948,7 @@ window.openModal = (id=null) => {
     }
   } else {
     document.getElementById('f-data').value=new Date().toISOString().split('T')[0];
-    ['f-partida','f-mercado','f-odd','f-stake','f-casa','f-liga','f-notas','f-odd-justa','f-edge','f-tag'].forEach(id=>document.getElementById(id).value='');
+    ['f-partida','f-tipster','f-mercado','f-odd','f-stake','f-casa','f-liga','f-notas','f-odd-justa','f-edge','f-tag'].forEach(id=>document.getElementById(id).value='');
     document.getElementById('f-status').value='open';
     document.getElementById('f-tipo').value='simples';
     document.getElementById('f-esporte').value='';
@@ -1849,6 +2024,7 @@ window.saveAposta = async () => {
   const aposta={
     data:document.getElementById('f-data').value,
     esporte,partida,
+    tipster:document.getElementById('f-tipster').value.trim()||null,
     mercado:document.getElementById('f-mercado').value.trim(),
     odd,stake,
     status:document.getElementById('f-status').value,
@@ -1874,6 +2050,273 @@ window.deleteAposta = async id => {
   setSyncStatus('syncing');
   try{await deleteDoc(doc(db,'users',user.uid,'apostas',id));toast('Aposta removida','red');}
   catch(e){setSyncStatus('error');toast('Erro ao remover','red');}
+};
+
+// ============ TIPSTER HELPERS ============
+function getTipsterObj(name) {
+  return tipsters.find(t=>t.nome===name)||null;
+}
+function getTipsterColor(name) {
+  const t=getTipsterObj(name);
+  return t?t.color:'#9d6fff';
+}
+function getTipsterEmoji(name) {
+  const t=getTipsterObj(name);
+  return t?t.emoji:'🎯';
+}
+function getTipsterStats(name, list) {
+  const ap=list.filter(a=>a.tipster===name);
+  const g=ap.filter(a=>a.status==='green');
+  const l=ap.filter(a=>a.status==='red');
+  const inv=[...g,...l].reduce((s,a)=>s+a.stake,0);
+  const ret=g.reduce((s,a)=>s+a.odd*a.stake,0);
+  const lucro=ret-inv;
+  const roi=inv>0?(lucro/inv*100):0;
+  const wr=g.length+l.length>0?(g.length/(g.length+l.length)*100):0;
+  const oddMedia=ap.length?ap.reduce((s,a)=>s+(parseFloat(a.odd)||0),0)/ap.length:0;
+  return {ap,g,l,inv,ret,lucro,roi,wr,oddMedia,total:ap.length};
+}
+
+function updateTipsterSelects() {
+  // Get all unique tipster names from apostas + registered tipsters
+  const fromApostas=[...new Set(apostas.map(a=>a.tipster).filter(Boolean))];
+  const allNames=[...new Set([...tipsters.map(t=>t.nome),...fromApostas])].sort();
+
+  // Filter tipster dropdown on apostas page
+  const ft=document.getElementById('filter-tipster');
+  if(ft){
+    const cur=ft.value;
+    ft.innerHTML='<option value="">Todos tipsters</option>'+allNames.map(n=>`<option value="${n}">${getTipsterEmoji(n)} ${n}</option>`).join('');
+    ft.value=cur;
+  }
+  // Tipster detail select
+  const td=document.getElementById('tipster-detail-select');
+  if(td){
+    const cur=td.value;
+    td.innerHTML='<option value="">Selecionar tipster...</option>'+allNames.map(n=>`<option value="${n}">${getTipsterEmoji(n)} ${n}</option>`).join('');
+    td.value=cur;
+  }
+}
+
+function renderTipsterRanking(list) {
+  const c=document.getElementById('stats-tipster-ranking');
+  if(!c) return;
+  const names=[...new Set(list.map(a=>a.tipster).filter(Boolean))];
+  if(!names.length){c.innerHTML='<div style="text-align:center;color:var(--text3);font-size:13px;padding:24px">Nenhuma aposta com tipster no período</div>';return;}
+  const stats=names.map(n=>({name:n,...getTipsterStats(n,list)})).sort((a,b)=>b.lucro-a.lucro);
+  c.innerHTML=`<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse">
+    <thead><tr>
+      <th style="padding:8px 14px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--text3);border-bottom:1px solid var(--border)">#</th>
+      <th style="padding:8px 14px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--text3);border-bottom:1px solid var(--border)">Tipster</th>
+      <th style="padding:8px 14px;text-align:center;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--text3);border-bottom:1px solid var(--border)">Apostas</th>
+      <th style="padding:8px 14px;text-align:center;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--text3);border-bottom:1px solid var(--border)">Win Rate</th>
+      <th style="padding:8px 14px;text-align:center;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--text3);border-bottom:1px solid var(--border)">ROI</th>
+      <th style="padding:8px 14px;text-align:center;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--text3);border-bottom:1px solid var(--border)">Odd Média</th>
+      <th style="padding:8px 14px;text-align:right;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--text3);border-bottom:1px solid var(--border)">Lucro</th>
+    </tr></thead>
+    <tbody>${stats.map((s,i)=>{
+      const col=getTipsterColor(s.name);
+      const em=getTipsterEmoji(s.name);
+      const medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
+      return `<tr style="border-bottom:1px solid var(--border)">
+        <td style="padding:11px 14px;font-size:13px;color:var(--text3)">${medal||i+1}</td>
+        <td style="padding:11px 14px"><div style="display:flex;align-items:center;gap:8px"><div style="width:30px;height:30px;border-radius:50%;background:${col};display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">${em}</div><div><div style="font-weight:500;color:var(--text);font-size:13px">${s.name}</div><div style="font-size:10px;color:var(--text3)">${s.g.length}V · ${s.l.length}D</div></div></div></td>
+        <td style="padding:11px 14px;text-align:center;font-size:13px;color:var(--text2)">${s.total}</td>
+        <td style="padding:11px 14px;text-align:center"><span class="badge ${s.wr>=50?'badge-green':'badge-red'}">${s.wr.toFixed(0)}%</span></td>
+        <td style="padding:11px 14px;text-align:center;font-family:'DM Mono',monospace;font-size:12px;color:${s.roi>=0?'var(--accent)':'var(--red)'}">${s.roi>=0?'+':''}${s.roi.toFixed(1)}%</td>
+        <td style="padding:11px 14px;text-align:center;font-family:'DM Mono',monospace;font-size:12px;color:var(--text2)">${s.oddMedia?s.oddMedia.toFixed(2):'—'}</td>
+        <td style="padding:11px 14px;text-align:right;font-family:'DM Mono',monospace;font-size:13px;color:${s.lucro>=0?'var(--accent)':'var(--red);font-weight:500'}">${s.lucro>=0?'+':''}${fmtBRL(s.lucro)}</td>
+      </tr>`;
+    }).join('')}</tbody>
+  </table></div>`;
+}
+
+function renderTipsterCards() {
+  const allNames=[...new Set([...tipsters.map(t=>t.nome),...apostas.map(a=>a.tipster).filter(Boolean)])];
+  const cards=document.getElementById('tipster-cards');
+  if(!allNames.length){
+    cards.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text3)"><div style="font-size:32px;margin-bottom:10px">🎯</div><div>Nenhum tipster ainda</div><div style="font-size:12px;margin-top:6px">Cadastre seus tipsters e associe apostas a eles</div></div>`;
+    return;
+  }
+  const stats=allNames.map(n=>({name:n,...getTipsterStats(n,apostas),obj:getTipsterObj(n)})).sort((a,b)=>b.lucro-a.lucro);
+
+  // Update KPIs
+  document.getElementById('tp-total').textContent=allNames.length;
+  document.getElementById('tp-best').textContent=stats[0]?stats[0].name:'—';
+  document.getElementById('tp-worst').textContent=stats[stats.length-1]?stats[stats.length-1].name:'—';
+  const comTipster=apostas.filter(a=>a.tipster).length;
+  document.getElementById('tp-apostas').textContent=comTipster;
+  document.getElementById('tp-apostas-pct').textContent=`de ${apostas.length} total`;
+
+  cards.innerHTML=stats.map((s,i)=>{
+    const col=s.obj?s.obj.color:'#9d6fff';
+    const em=s.obj?s.obj.emoji:'🎯';
+    const canal=s.obj?s.obj.canal:'';
+    const rankCls=i===0?'tipster-rank-1':i===1?'tipster-rank-2':i===2?'tipster-rank-3':'';
+    return `<div class="tipster-card ${rankCls}">
+      <div class="tipster-header">
+        <div class="tipster-avatar-big" style="background:${col}">${em}</div>
+        <div class="tipster-info">
+          <div class="tipster-name">${s.name}</div>
+          <div class="tipster-meta">${canal?canal+' · ':''}${s.total} aposta${s.total!==1?'s':''}</div>
+        </div>
+        <div style="text-align:right">
+          <div class="tipster-lucro" style="color:${s.lucro>=0?'var(--accent)':'var(--red)'}">${s.lucro>=0?'+':''}${fmtBRL(s.lucro)}</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:2px">ROI ${s.roi>=0?'+':''}${s.roi.toFixed(1)}%</div>
+        </div>
+      </div>
+      <div class="tipster-stats-row">
+        <div class="tipster-stat"><div class="tipster-stat-lbl">Win Rate</div><div class="tipster-stat-val" style="color:${s.wr>=50?'var(--accent)':'var(--red)'}">${s.wr.toFixed(0)}%</div></div>
+        <div class="tipster-stat"><div class="tipster-stat-lbl">Ganhas</div><div class="tipster-stat-val" style="color:var(--accent)">${s.g.length}</div></div>
+        <div class="tipster-stat"><div class="tipster-stat-lbl">Perdidas</div><div class="tipster-stat-val" style="color:var(--red)">${s.l.length}</div></div>
+        <div class="tipster-stat"><div class="tipster-stat-lbl">Odd Média</div><div class="tipster-stat-val" style="color:var(--text2)">${s.oddMedia?s.oddMedia.toFixed(2):'—'}</div></div>
+      </div>
+      <div style="margin-top:10px">
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3);margin-bottom:4px"><span>Win Rate</span><span>${s.wr.toFixed(0)}%</span></div>
+        <div style="height:4px;background:var(--border2);border-radius:2px;overflow:hidden"><div style="height:100%;width:${s.wr}%;background:${col};border-radius:2px;transition:width 1s ease"></div></div>
+      </div>
+      ${s.obj?`<div style="display:flex;gap:6px;margin-top:12px">
+        <button class="btn btn-ghost btn-sm" onclick="openTipsterModal('${s.obj.id}')">Editar</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteTipster('${s.obj.id}','${s.name}')">Remover</button>
+      </div>`:''}
+    </div>`;
+  }).join('');
+}
+
+window.renderTipsterDetail = () => {
+  const name=document.getElementById('tipster-detail-select').value;
+  const c=document.getElementById('tipster-detail-table');
+  if(!name){c.innerHTML='<div style="text-align:center;padding:32px;color:var(--text3);font-size:13px">Selecione um tipster acima</div>';return;}
+  const list=apostas.filter(a=>a.tipster===name).sort((a,b)=>a.data>b.data?-1:1);
+  if(!list.length){c.innerHTML='<div style="text-align:center;padding:32px;color:var(--text3);font-size:13px">Nenhuma aposta para este tipster</div>';return;}
+  const sl={green:['Ganha','badge-green'],red:['Perdida','badge-red'],void:['Devolvida','badge-yellow'],open:['Em Aberto','badge-gray']};
+  c.innerHTML=`<table style="width:100%;border-collapse:collapse">
+    <thead><tr>
+      <th style="padding:9px 14px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--text3);border-bottom:1px solid var(--border)">Data</th>
+      <th style="padding:9px 14px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--text3);border-bottom:1px solid var(--border)">Partida</th>
+      <th style="padding:9px 14px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--text3);border-bottom:1px solid var(--border)">Mercado</th>
+      <th style="padding:9px 14px;text-align:center;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--text3);border-bottom:1px solid var(--border)">Odd</th>
+      <th style="padding:9px 14px;text-align:center;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--text3);border-bottom:1px solid var(--border)">Stake</th>
+      <th style="padding:9px 14px;text-align:center;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--text3);border-bottom:1px solid var(--border)">Status</th>
+      <th style="padding:9px 14px;text-align:right;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--text3);border-bottom:1px solid var(--border)">Resultado</th>
+    </tr></thead>
+    <tbody>${list.map(a=>{
+      const [lbl,cls]=sl[a.status]||['?','badge-gray'];
+      const profit=a.status==='green'?a.odd*a.stake-a.stake:a.status==='red'?-a.stake:0;
+      const pcls=profit>0?'profit-pos':profit<0?'profit-neg':'profit-zero';
+      return `<tr style="border-bottom:1px solid var(--border)">
+        <td style="padding:10px 14px;font-size:11px;color:var(--text3)">${fmtDate(a.data)}</td>
+        <td style="padding:10px 14px;font-size:13px;color:var(--text)">${a.partida}</td>
+        <td style="padding:10px 14px;font-size:12px;color:var(--text3)">${a.mercado||'—'}</td>
+        <td style="padding:10px 14px;text-align:center"><span class="mono">${parseFloat(a.odd).toFixed(2)}</span></td>
+        <td style="padding:10px 14px;text-align:center"><span class="mono">${fmtBRL(a.stake)}</span></td>
+        <td style="padding:10px 14px;text-align:center"><span class="badge ${cls}">${lbl}</span></td>
+        <td style="padding:10px 14px;text-align:right"><span class="${pcls}">${a.status==='open'||a.status==='void'?'—':(profit>=0?'+':'')+fmtBRL(profit)}</span></td>
+      </tr>`;
+    }).join('')}</tbody>
+  </table>`;
+};
+
+// Tipster autocomplete
+window.onTipsterInput = () => {
+  const val=document.getElementById('f-tipster').value.toLowerCase();
+  const all=[...new Set([...tipsters.map(t=>t.nome),...apostas.map(a=>a.tipster).filter(Boolean)])];
+  const filtered=val?all.filter(n=>n.toLowerCase().includes(val)):all;
+  showTipsterSuggestions(filtered);
+};
+window.onTipsterFocus = () => {
+  const all=[...new Set([...tipsters.map(t=>t.nome),...apostas.map(a=>a.tipster).filter(Boolean)])];
+  showTipsterSuggestions(all);
+};
+function showTipsterSuggestions(list) {
+  const box=document.getElementById('tipster-suggestions');
+  if(!list.length){box.classList.remove('open');return;}
+  box.innerHTML=list.map(n=>{
+    const t=getTipsterObj(n);
+    const col=t?t.color:'#9d6fff';
+    const em=t?t.emoji:'🎯';
+    return `<div class="tipster-suggestion-item" onmousedown="selectTipsterSug('${n}')"><div class="tipster-sug-avatar" style="background:${col}">${em}</div>${n}</div>`;
+  }).join('');
+  box.classList.add('open');
+}
+window.selectTipsterSug = (name) => {
+  document.getElementById('f-tipster').value=name;
+  closeTipsterSug();
+};
+window.closeTipsterSug = () => document.getElementById('tipster-suggestions').classList.remove('open');
+
+// CRUD Tipsters
+let editingTipsterId = null;
+let selectedEmoji = '🎯';
+let selectedColor = '#9d6fff';
+
+window.openTipsterModal = (id=null) => {
+  editingTipsterId=id;
+  document.getElementById('tipster-modal-title').textContent=id?'EDITAR TIPSTER':'NOVO TIPSTER';
+  if(id){
+    const t=tipsters.find(x=>x.id===id);
+    if(t){
+      document.getElementById('t-nome').value=t.nome;
+      document.getElementById('t-canal').value=t.canal||'';
+      document.getElementById('t-notas').value=t.notas||'';
+      selectedEmoji=t.emoji||'🎯';
+      selectedColor=t.color||'#9d6fff';
+      document.getElementById('t-emoji').value=selectedEmoji;
+      document.getElementById('t-color').value=selectedColor;
+    }
+  } else {
+    document.getElementById('t-nome').value='';
+    document.getElementById('t-canal').value='';
+    document.getElementById('t-notas').value='';
+    selectedEmoji='🎯';selectedColor='#9d6fff';
+  }
+  // Reset selections visually
+  document.querySelectorAll('.emoji-opt').forEach(e=>e.style.border='2px solid transparent');
+  document.querySelectorAll('.color-opt').forEach(e=>e.style.border='2px solid transparent');
+  document.getElementById('tipster-modal').classList.add('open');
+};
+window.selectEmoji = (el) => {
+  document.querySelectorAll('.emoji-opt').forEach(e=>e.style.border='2px solid transparent');
+  el.style.border='2px solid var(--accent)';
+  selectedEmoji=el.textContent;
+  document.getElementById('t-emoji').value=selectedEmoji;
+};
+window.selectColor = (el,color) => {
+  document.querySelectorAll('.color-opt').forEach(e=>e.style.border='2px solid transparent');
+  el.style.border='2px solid var(--text)';
+  selectedColor=color;
+  document.getElementById('t-color').value=color;
+};
+window.saveTipster = async () => {
+  const nome=document.getElementById('t-nome').value.trim();
+  if(!nome){toast('Digite o nome do tipster','red');return;}
+  const t={
+    id:editingTipsterId||Date.now().toString(),
+    nome,
+    emoji:document.getElementById('t-emoji').value||'🎯',
+    color:document.getElementById('t-color').value||'#9d6fff',
+    canal:document.getElementById('t-canal').value,
+    notas:document.getElementById('t-notas').value.trim(),
+  };
+  try{
+    await setDoc(doc(db,'users',user.uid,'tipsters',t.id),t);
+    if(editingTipsterId) tipsters=tipsters.map(x=>x.id===editingTipsterId?t:x);
+    else tipsters.push(t);
+    updateTipsterSelects();
+    renderTipsterCards();
+    document.getElementById('tipster-modal').classList.remove('open');
+    toast(editingTipsterId?'Tipster atualizado!':'Tipster cadastrado! 🎯');
+  }catch(e){toast('Erro ao salvar','red');}
+};
+window.deleteTipster = async (id,nome) => {
+  if(!confirm(`Remover ${nome}? As apostas não serão afetadas.`))return;
+  try{
+    await deleteDoc(doc(db,'users',user.uid,'tipsters',id));
+    tipsters=tipsters.filter(t=>t.id!==id);
+    updateTipsterSelects();
+    renderTipsterCards();
+    toast('Tipster removido','red');
+  }catch(e){toast('Erro ao remover','red');}
 };
 
 // ============ KELLY STANDALONE ============
